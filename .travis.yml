@@ -1,0 +1,26 @@
+language: ruby
+rvm:
+ - 2.6.4
+ - jruby
+jobs:
+  stages:
+  - check style
+  - name: deploy to heroku
+    if: branch = master
+  include:
+    - stage: check style
+      cache:
+        yarn: true
+        bundler: true
+        directories:
+          - node_modules
+       before_install:
+          - gem update --system
+          - gem install rake
+          - gem install bundler
+      install:
+        - yarn add eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
+        - bundle install
+      script:
+        - yarn eslint ./
+        - rubocop ./
