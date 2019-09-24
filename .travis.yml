@@ -3,10 +3,6 @@ rvm:
  - 2.6.4
  - jruby
 jobs:
-  stages:
-  - check style
-  - name: deploy to heroku
-    if: branch = master
   include:
     - stage: check style
       cache:
