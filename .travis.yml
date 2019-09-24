@@ -1,22 +1,47 @@
 language: ruby
 rvm:
- - 2.6.4
- - jruby
+- 2.6.2
+branches:
+  only:
+    - master
+
+cache:
+  bundler: true
+  npm: true
+  yarn: true
+  directories:
+    - node_modules
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
+  - source /home/travis/.bashrc
+
+install:
+  - bundle install
+  - yarn install
+
+stages:
+  - name: lint
+  - name: test
+  - name: deploy
+
 jobs:
   include:
-    - stage: check style
-      cache:
-        yarn: true
-        bundler: true
-        directories:
-          - node_modules
-       before_install:
-          - gem update --system
-          - gem install rake
-          - gem install bundler
-      install:
-        - yarn add eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
-        - bundle install
+    - stage: lint
       script:
-        - yarn eslint ./
-        - rubocop ./
+        - bundle exec rubocop
+    - stage: lint
+      script:
+        - yarn lint
+    - stage: test
+      script:
+        - bundle exec test
+    - stage: deploy
+      script: skip
+      deploy:
+        provider: heroku
+        api_key:
+          secure: ""
+        on:
+          branch: master
+        run: rails db:migrate
