@@ -23,7 +23,7 @@ install:
 stages:
   - name: lint
   - name: test
-  - name: deploy
+#  - name: deploy
 
 jobs:
   include:
@@ -35,13 +35,16 @@ jobs:
         - yarn lint
     - stage: test
       script:
+        - brakeman -z
+    - stage: test
+      script:
         - bundle exec test
-    - stage: deploy
-      script: skip
-      deploy:
-        provider: heroku
-        api_key:
-          secure: ""
-        on:
-          branch: master
-        run: rails db:migrate
+    # - stage: deploy
+    #   script: skip
+    #   deploy:
+    #     provider: heroku
+    #     api_key:
+    #       secure: ""
+    #     on:
+    #       branch: master
+    #     run: rails db:migrate
