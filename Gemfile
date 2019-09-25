@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:github) { |repo| 'https://github.com/#{repo}.git' }
 
 ruby '2.6.3'
 
@@ -52,3 +52,13 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'minitest-rails', '~> 6.0'
+
+gem 'minitest', '~> 5.11'
+
+gem 'simplecov', '~> 0.17.0'
+
+gem 'bundler-audit', '~> 0.6.1'
+
+gem 'brakeman', '~> 4.6'
