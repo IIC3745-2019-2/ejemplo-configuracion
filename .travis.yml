@@ -13,10 +13,11 @@ cache:
     - node_modules
 
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
-  - source /home/travis/.bashrc
+  - gem update --system
+  - gem install bundler --no-document
 
 install:
+  - npm i -g yarn
   - bundle install
   - yarn install
 
@@ -25,9 +26,14 @@ stages:
   - name: test
 #  - name: deploy
 
+before_script:
+  - gem install brakeman
+  - bundle exec rake db:setup
+  - bundle exec rake assets:precompile
+
 jobs:
   include:
-    - stage: lint
+    - stage: lint        
       script:
         - bundle exec rubocop
     - stage: lint

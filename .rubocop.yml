@@ -1,0 +1,46 @@
+AllCops:
+  TargetRubyVersion: 2.6
+  Exclude:
+    - bin/**/*
+    - contrib/**/*
+    - config/**/*
+    - db/**/*
+    - tmp/**/*
+    - Capfile
+    - Gemfile
+    - Rakefile
+    - node_modules/**/*
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/LineLength:
+  Max: 80
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: true
+
+Metrics/MethodLength:
+  Max: 20
+
+Style/AndOr:
+  Enabled: false
+
+Style/Not:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 40
+
+Style/Documentation:
+  Enabled: false
