@@ -4,7 +4,8 @@ rvm:
 branches:
   only:
     - master
-
+services:
+— postgresql
 cache:
   bundler: true
   npm: true
@@ -28,7 +29,7 @@ stages:
 
 before_script:
   - gem install brakeman
-  - bundle exec rake db:setup
+  - bundle exec rake db:create db:migrate
   - bundle exec rake assets:precompile
 
 jobs:
@@ -39,7 +40,12 @@ jobs:
     - stage: lint
       script:
         - yarn lint
-    - stage: test
+    - stage: lint
+      before_script:
+        - bundle exec bundle-audit update
+      script: 
+        - bundle exec bundle-audit check
+    - stage: lint
       script:
         - brakeman -z
     - stage: test
@@ -51,6 +57,10 @@ jobs:
     #     provider: heroku
     #     api_key:
     #       secure: ""
+    #     app:
+    #       ""
     #     on:
-    #       branch: master
+          # repo: IIC3745-2019-2/ejemplo-configuracion
+          # branch: master
+          # condition: $TRAVIS_BRANCH = master
     #     run: rails db:migrate
