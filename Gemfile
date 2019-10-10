@@ -34,8 +34,8 @@ group :development, :test do
   gem 'brakeman', '~> 4.6.1', require: false
   gem 'bundler-audit', '~> 0.6.1', require: false
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'rubocop', '~> 0.72.0', require: false
-  gem 'rubocop-rails', '~> 2.2.1', require: false
+  gem 'rubocop', '~> 0.75.0', require: false
+  gem 'rubocop-rails', '~> 2.3.2', require: false
 end
 
 group :development do
