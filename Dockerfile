@@ -1,22 +1,22 @@
-FROM ruby:2.6.4
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update
-RUN apt-get install yarn
-RUN mkdir /noding
-WORKDIR /noding
-COPY Gemfile /noding/Gemfile
-COPY Gemfile.lock /noding/Gemfile.lock
-RUN gem install bundler
-RUN bundle install
-COPY . /noding
+FROM ruby:2.6.3
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
+ENV LANG C.UTF-8
 
-# Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+RUN apt-get update -qq && apt-get install -y build-essential software-properties-common
+
+# Node.js
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt-get install -y nodejs
+
+# yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get install -y yarn
+
+ENV APP_HOME /ejemplo-configuracion
+
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+ADD . $APP_HOME
