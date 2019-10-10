@@ -1,66 +1,22 @@
 language: ruby
 rvm:
-- 2.6.3
+  - 2.6.3
+cache:
+  - bundler
+services:
+  - postgresql
+env:
+  matrix:
+    - DISABLE_SPRING=true
+before_script:
+  - cp config/database.travis.yml config/database.yml
+  - bundle exec rake db:setup RAILS_ENV=test
+script:
+  - bundle exec rubocop
+  - bundle exec rails test
+  - bundle exec bundle-audit check --update
+  - bundle exec brakeman
 branches:
   only:
+    - dev
     - master
-services:
-— postgresql
-cache:
-  bundler: true
-  npm: true
-  yarn: true
-  directories:
-    - node_modules
-
-before_install:
-  - gem update --system
-  - gem install bundler --no-document
-
-install:
-  - npm i -g yarn
-  - bundle install
-  - yarn install
-
-stages:
-  - name: lint
-  - name: test
-#  - name: deploy
-
-before_script:
-  - gem install brakeman
-  - bundle exec rake db:create db:migrate
-  - bundle exec rake assets:precompile
-
-jobs:
-  include:
-    - stage: lint        
-      script:
-        - bundle exec rubocop
-    - stage: lint
-      script:
-        - yarn lint
-    - stage: lint
-      before_script:
-        - bundle exec bundle-audit update
-      script: 
-        - bundle exec bundle-audit check
-    - stage: lint
-      script:
-        - brakeman -z
-    - stage: test
-      script:
-        - bundle exec test
-    # - stage: deploy
-    #   script: skip
-    #   deploy:
-    #     provider: heroku
-    #     api_key:
-    #       secure: ""
-    #     app:
-    #       ""
-    #     on:
-          # repo: IIC3745-2019-2/ejemplo-configuracion
-          # branch: master
-          # condition: $TRAVIS_BRANCH = master
-    #     run: rails db:migrate
