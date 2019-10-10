@@ -1,46 +1,45 @@
+require: rubocop-rails
+
 AllCops:
   TargetRubyVersion: 2.6
+  DisplayStyleGuide: true
+  Include:
+    - '**/*.rb'
+    - '**/*.jbuilder'
+    - '**/*.rake'
+    - '**/Gemfile'
+    - '**/Rakefile'
   Exclude:
-    - bin/**/*
-    - contrib/**/*
-    - config/**/*
-    - db/**/*
-    - tmp/**/*
-    - Capfile
-    - Gemfile
-    - Rakefile
-    - node_modules/**/*
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+    - 'vendor/**/*'
+    - 'bin/**/*'
 
-Style/ClassAndModuleChildren:
+Metrics/BlockLength:
   Exclude:
-    - 'test/**/*'
+    - 'Gemfile'
+    - 'config/routes.rb'
+    - 'config/environments/**/*'
 
-Metrics/LineLength:
-  Max: 80
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/HashSyntax:
-  Enabled: true
-
-Metrics/MethodLength:
-  Max: 20
-
-Style/AndOr:
-  Enabled: false
-
-Style/Not:
-  Enabled: false
-
-Style/CommentAnnotation:
-  Enabled: false
-
-Style/NumericLiterals:
-  Enabled: false
+Metrics/ClassLength:
+  Max: 200
 
 Metrics/AbcSize:
-  Max: 40
+  Max: 30
 
-Style/Documentation:
-  Enabled: false
+Metrics/MethodLength:
+  Max: 30
+
+Metrics/LineLength:
+  IgnoredPatterns: ['\A\s*#']
+  Max: 80
+
+Metrics/CyclomaticComplexity:
+  Max: 11
+
+Metrics/ModuleLength:
+  Max: 150
+
+Metrics/PerceivedComplexity:
+  Max: 7
